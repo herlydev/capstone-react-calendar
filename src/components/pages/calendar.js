@@ -58,14 +58,32 @@ export default class Calendar extends React.Component {
                 <td key={day} className="week-day">{day}</td>
             )
         })
+
+        // To calculate the empty slot days at the beginning of the month
+
+        let blanks = [];
+        for (let i = 0; i < this.firstDayOfMonth(); i++) {
+            blanks.push(
+                <td className="emptySlot">{""}</td>
+            );
+        }
+        console.log("blanks: ", blanks);
+
+        let trElements = []
+
         return (
             <div className="calendar-container">
                 <table className="calendar">
                     <thead>
                         <tr className="calendar-header">
-                            {weekdays}
                         </tr>
                     </thead>
+                    <tbody>
+                        <tr>
+                           {weekdays} 
+                        </tr>
+                        {trElements}
+                    </tbody>
                 </table>
             </div>
         );
