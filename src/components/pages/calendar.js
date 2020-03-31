@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { scryRenderedComponentsWithType } from 'react-dom/test-utils';
 
 
 export default class Calendar extends React.Component {
@@ -68,6 +69,41 @@ export default class Calendar extends React.Component {
             );
         }
         console.log("blanks: ", blanks);
+        // To calculate and populate the days of the month to be place after the empty slots
+        let daysInMonth = [];
+        for (let d = 1; d <= this.daysInMonth(); d++) {
+            let populateDays = (d == this.currentDay() ? "day current-day": "day");
+            daysInMonth.push(
+                <td key={d} populateDays={populateDays}>
+                    <span>{d}</span>
+                </td>
+            );
+        }
+        console.log("days: ", daysInMonth);
+
+        // days for each row
+        var totalSlots = [...blanks, ...daysInMonths];
+        let row = [];
+        let cell = [];
+
+        totalSlots.forEach((row, i) => {
+            if ((i % 7) !== 0) {
+                cells.push(row);
+            } else {
+                let insertRow = cells.slice();
+                rows.push(insertRow);
+                cells = [];
+                cells.push(row);
+            }
+
+            if (i == totalSlots.length - 1) {
+                let insertRow = cells.slice();
+                row.push(insertRow);
+            }
+        });
+
+
+
 
         let trElements = []
 
