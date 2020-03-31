@@ -7,9 +7,13 @@ export default class Lead extends React.Component {
     constructor() {
         super()
 
-        this.state = [
-            {fname: "", lname:"", phone: "", email:""}
-        ]
+        this.state = {
+            fname: "",
+            lname: "",
+            phone: "",
+            email: "",
+            leads: []
+        }
 
     }
 
@@ -32,20 +36,16 @@ export default class Lead extends React.Component {
             method: "post",
             url: 'http://localhost:5000/lead',
             headers: { "content-tpe": "application/json"},
-            data: [
-                {fname: this.state.fname,
+            data: {
+                fname: this.state.fname,
                 lname: this.state.lname,
                 phone: this.state.phone,
-                email: this.state.email}
-            ]
-                
-
-            
+                email: this.state.email
+            }   
         }).then(response => {
             console.log(response)
             this.setState({
-                leads: [...this.state.leads, response.data],
-                lead: ""
+                leads: [...this.state.leads, response.data]
             })
         })
         .catch((error) => {
@@ -54,17 +54,9 @@ export default class Lead extends React.Component {
     }
 
     handleChange = (event) => {
-        this.setState({
-            
-            lead : [
-                {fname: event.target.value,
-                lname: event.target.value,
-                phone: event.target.value,
-                email: event.target.value}
-            ]
-            
+        this.setState({ 
+            [event.target.name] : event.target.value  
         })
-        
     }
 
     render() {
@@ -78,24 +70,28 @@ export default class Lead extends React.Component {
                     placeholder="First Name"
                     value={this.state.fname}
                     onChange={this.handleChange}
+                    name="fname"
                     />
                     <input
                     type="text"
                     placeholder="Last Name"
                     value={this.state.lname}
                     onChange={this.handleChange}
+                    name="lname"
                     />
                     <input
                     type="text"
                     placeholder="Phone Number"
                     value={this.state.phone}
                     onChange={this.handleChange}
+                    name="phone"
                     />
                     <input
-                    type="text"
+                    type="email"
                     placeholder="Email Address"
                     value={this.state.email}
                     onChange={this.handleChange}
+                    name="email"
                     />
                     <button type="submit">Get Started!</button>
                 </form>
