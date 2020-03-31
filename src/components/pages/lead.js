@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import Calendar from './calendar';
 
 
 export default class Lead extends React.Component {
@@ -97,6 +98,7 @@ export default class Lead extends React.Component {
                 </form>
                 
                 <h2>Lead Generation Calendar</h2>
+                <Calendar />
             </div>
         )
     }

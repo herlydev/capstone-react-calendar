@@ -8,6 +8,10 @@ import Contact from "./pages/contact";
 import NoMatch from "./pages/no-match";
 import SlugDetail from "./pages/slug-details";
 
+const style = {
+  position: "relative",
+  margin: "50px auto"
+}
 
 export default class App extends Component {
   
