@@ -63,6 +63,7 @@ export default class Calendar extends React.Component {
 
     onSelectChange = (e, data) => {
         this.setMonth(data)
+        this.props.onMonthChange && this.props.onMonthChange();
     }
 
     SelectList = (props) => {
@@ -99,7 +100,52 @@ export default class Calendar extends React.Component {
         )
     }
     
+    showYearEditor = () => {
+        this.setState({
+            showYearNav: true
+        });
+    }
 
+    setYear = (year) => {
+        let dateContext = Object.assign({}, this.state.dateContext);
+        dateContext = moment(dateContext).set("year", year);
+        this.setState({
+            dateContext: dateContext
+        })
+    }
+    onYearChange = (e) => {
+        this.setYear(e.target.value);
+        this.props.onYearChange && this.props.onYearChange(e, e.target.value);
+    }
+    // 13 means enter-key and 27 means scape-key
+    onKeyUpYear = (e) => {
+        if (e.which === 13 || e.which === 27) {
+            this.setYear(e.target.value);
+            this.setState({
+                showYearNav: false
+            })
+        }
+    }
+
+    YearNav = () => {
+        return (
+            this.state.showYearNav ?
+            <input
+                defaultValue = {this.year()}
+                className="editor-year"
+                ref={(yearInput) => { this.yearInput = yearInput}}
+                onKeyUp= {(e) => this.onKeyUpYear(e)}
+                onChange = {(e) => this.onYearChange(e)}
+                type="number"
+                placeholder="year"/>
+            :
+            <span
+                className="label-year"
+                onDoubleClick={(e)=> { this.showYearEditor()}}>
+                {this.year()}
+            </span>
+        );
+    }
     render() {
         // Map the weekdays Sun, Tue, ... as <td>
 
@@ -168,7 +214,9 @@ export default class Calendar extends React.Component {
                     <thead>
                         <tr className="calendar-header">
                             <td colSpan="5">
-                               <this.MonthNav /> 
+                                <this.MonthNav />
+                                {" "}
+                                <this.YearNav />
                             </td>
                         </tr>
                     </thead>
