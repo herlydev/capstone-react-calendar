@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Calendar from './calendar';
 
+const style = {
+    position: "relative",
+    margin: "50px auto"
+  }
 
 export default class Lead extends React.Component {
     constructor() {
@@ -98,7 +102,8 @@ export default class Lead extends React.Component {
                 </form>
                 
                 <h2>Lead Generation Calendar</h2>
-                <Calendar />
+                <Calendar style={style} width="302px" />
+                
             </div>
         )
     }
