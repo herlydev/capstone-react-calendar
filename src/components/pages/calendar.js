@@ -65,7 +65,7 @@ export default class Calendar extends React.Component {
         let blanks = [];
         for (let i = 0; i < this.firstDayOfMonth(); i++) {
             blanks.push(
-                <td className="emptySlot">{""}</td>
+                <td key={i * 25} className="emptySlot">{""}</td>
             );
         }
         console.log("blanks: ", blanks);
@@ -82,9 +82,9 @@ export default class Calendar extends React.Component {
         console.log("days: ", daysInMonth);
 
         // days for each row
-        var totalSlots = [...blanks, ...daysInMonths];
-        let row = [];
-        let cell = [];
+        var totalSlots = [...blanks, ...daysInMonth];
+        let rows = [];
+        let cells = [];
 
         totalSlots.forEach((row, i) => {
             if ((i % 7) !== 0) {
@@ -98,14 +98,20 @@ export default class Calendar extends React.Component {
 
             if (i == totalSlots.length - 1) {
                 let insertRow = cells.slice();
-                row.push(insertRow);
+                rows.push(insertRow);
             }
         });
 
 
 
 
-        let trElements = []
+        let trElements = rows.map((d, i ) => {
+            return (
+                <tr key={i*15}>
+                    {d}
+                </tr>
+            );
+        })
 
         return (
             <div className="calendar-container">
