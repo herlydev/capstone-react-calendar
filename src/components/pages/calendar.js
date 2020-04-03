@@ -1,8 +1,14 @@
 import React from 'react';
 import moment from 'moment';
+import 'font-awesome/css/font-awesome.min.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "../style/calendar.css"
+import "../style/calendar.css";
 
+const style = {
+    position: "relative",
+    margin: "50px auto"
+  }
 
 
 
@@ -11,7 +17,9 @@ export default class Calendar extends React.Component {
         dateContext: moment(),
         today: moment(),
         showMonthPopup: false,
-        showYearPopup: false
+        showYearPopup: false,
+        selectedDay: null,
+        selectedMonth: null
 
     }
     
@@ -46,6 +54,8 @@ export default class Calendar extends React.Component {
     currentDay = () => {
         return this.state.dateContext.format("D");
     }
+
+
     firstDayOfMonth = () => {
         let dateContext = this.state.dateContext;
         let firstDay = moment(dateContext).startOf('month').format('d'); // Day of de week 0...1.....6
@@ -59,11 +69,32 @@ export default class Calendar extends React.Component {
         this.setState({
             dateContext: dateContext
         });
+        
+    }
+    // nav next month
+    nextMonth = () => {
+        let dateContext = Object.assign({}, this.state.dateContext);
+        dateContext = moment(dateContext).add(1, "month");
+        this.setState({
+            dateContext: dateContext
+        });
+        this.props.onNextMonth && this.props.onNextMonth();
+    }
+    // nav previous month
+    prevMonth = () => {
+        let dateContext = Object.assign({}, this.state.dateContext);
+        dateContext = moment(dateContext).subtract(1, "month");
+        this.setState({
+            dateContext: dateContext
+        });
+        this.props.onPrevMonth && this.props.onPrevMonth();
     }
 
     onSelectChange = (e, data) => {
         this.setMonth(data)
         this.props.onMonthChange && this.props.onMonthChange();
+
+        
     }
 
     SelectList = (props) => {
@@ -146,6 +177,29 @@ export default class Calendar extends React.Component {
             </span>
         );
     }
+
+    onDayClick = (e, day, month) => {
+        this.setState({
+            selectedDay: day
+        }, () => {
+            console.log("SELECTED DAY: ", this.state.selectedDay)
+            
+        });
+        this.props.onDayClick && this.props.onDayClick(e, day);
+
+        // this.setState({
+        //     selectedMonth: month
+        // }, () => {
+        //     console.log("SELECTED MONTH: ", this.state.selectedMonth)
+        
+        // })
+        
+        alert (("Your Selected day is: ") + (day))
+
+        
+    }
+
+
     render() {
         // Map the weekdays Sun, Tue, ... as <td>
 
@@ -164,13 +218,14 @@ export default class Calendar extends React.Component {
             );
         }
         console.log("blanks: ", blanks);
+
         // To calculate and populate the days of the month to be place after the empty slots
         let daysInMonth = [];
         for (let d = 1; d <= this.daysInMonth(); d++) {
             let className = (d == this.currentDay() ? "day current-day": "day");
             daysInMonth.push(
                 <td key={d} className={className}>
-                    <span>{d}</span>
+                    <span onClick={(e) => {this.onDayClick(e, d)}}>{d}</span>
                 </td>
             );
         }
@@ -217,7 +272,16 @@ export default class Calendar extends React.Component {
                                 <this.MonthNav />
                                 {" "}
                                 <this.YearNav />
+                                {" "}
+                                <i className="prev fa fa-fw fa-chevron-left"
+                                    onClick={(e)=> {this.prevMonth()}}>
+                                </i>
+                                <i className="next fa fa-fw fa-chevron-right"
+                                    onClick={(e)=> {this.nextMonth()}}>
+                                </i>
+                                
                             </td>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -225,6 +289,7 @@ export default class Calendar extends React.Component {
                            {weekdays} 
                         </tr>
                         {trElements}
+                        
                     </tbody>
                 </table>
             </div>
