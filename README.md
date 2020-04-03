@@ -1,3 +1,11 @@
+BOTTEGA CAPSTONE PROJECT
+
+Marketing Lead Generation Website
+
+This app will capture leads for Tax Preparation company
+
+____________________________________________________________________________________________________
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
