@@ -48,7 +48,7 @@ export default class Calendar extends React.Component {
         return this.state.dateContext.daysInMonth();
     }
     currentDate = () => {
-        console.log("currentDate: ", this.state.dateContext.get("date"));
+        // console.log("currentDate: ", this.state.dateContext.get("date"));
         return this.state.dateContext.get("date");
     }
     currentDay = () => {
@@ -187,13 +187,7 @@ export default class Calendar extends React.Component {
         });
         this.props.onDayClick && this.props.onDayClick(e, day);
 
-        // this.setState({
-        //     selectedMonth: month
-        // }, () => {
-        //     console.log("SELECTED MONTH: ", this.state.selectedMonth)
-        
-        // })
-        
+            
         alert (("Your Selected day is: ") + (day))
 
         
@@ -217,7 +211,7 @@ export default class Calendar extends React.Component {
                 <td key={i * 25} className="emptySlot">{""}</td>
             );
         }
-        console.log("blanks: ", blanks);
+        // console.log("blanks: ", blanks);
 
         // To calculate and populate the days of the month to be place after the empty slots
         let daysInMonth = [];
@@ -229,7 +223,7 @@ export default class Calendar extends React.Component {
                 </td>
             );
         }
-        console.log("days: ", daysInMonth);
+        // console.log("days: ", daysInMonth);
 
         // days for each row
         var totalSlots = [...blanks, ...daysInMonth];
