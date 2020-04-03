@@ -27,7 +27,7 @@ export default class Lead extends React.Component {
    
 
     componentDidMount() {
-        fetch("http://localhost:5000/leads")
+        fetch("https://hs-lead-generation-react-flask.herokuapp.com/leads")
         .then(response => response.json())
         .then(data => {
             this.setState({
@@ -41,7 +41,7 @@ export default class Lead extends React.Component {
         event.preventDefault()
         axios({
             method: "post",
-            url: 'http://localhost:5000/lead',
+            url: 'https://hs-lead-generation-react-flask.herokuapp.com/lead',
             headers: { "content-tpe": "application/json"},
             data: {
                 fname: this.state.fname,
@@ -123,8 +123,7 @@ export default class Lead extends React.Component {
                 <h2>Tax-EZ Calendar </h2>
                 <h4>Please select the best day to reach you!</h4>
                 <Calendar />
-                {/* // style={style} width="302px" /> */}
-                    {/* onDayClick={(e, day)=> this.onDayClick(e, day)}/>   */}
+                
             </div>
 
             </div>
